@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 
-import { addQuestion } from "../actions";
+import { editRequest } from "../actions";
 
-import AddQuestion from "../components/AddQuestion";
+import EditQuestion from "../components/EditQuestion";
 
 
 const mapStateToProps = (state, ownProps) => ({
@@ -11,10 +11,10 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  addQuestion: input => dispatch(addQuestion(input))
+    editRequest: (question) => dispatch(editRequest( question))
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(AddQuestion);
+)(EditQuestion);

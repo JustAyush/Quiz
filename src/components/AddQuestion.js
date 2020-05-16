@@ -11,12 +11,13 @@ import {
   Select,
   FormControl,
   Container,
-  FormHelperText
+  FormHelperText,
+  Dialog, 
 } from "@material-ui/core";
 
 let nextOptionId = 0;
 
-const AddQuestion = ({ addQuestion }) => {
+const AddQuestion = ({ addQuestion, addDialogOpen, setAddDialogOpen }) => {
   const [ques, setQues] = useState({
     question: "",
     options: [],
@@ -110,6 +111,7 @@ const AddQuestion = ({ addQuestion }) => {
 
     if (readyToDispatch) {
       addQuestion(ques);
+      setAddDialogOpen(false);
     }
   };
 
@@ -132,11 +134,9 @@ const AddQuestion = ({ addQuestion }) => {
 
   return (
     <>
-      <Container maxWidth="xs">
-        <Button variant="contained" color="primary">
-          {" "}
-          Add a question{" "}
-        </Button>
+      <Dialog open={addDialogOpen} onClose={() => setAddDialogOpen(false)}>
+        <Container maxWidth="sm">
+        <Box p={2}>
         <Box mt={2}>
           <Typography variant="subtitle1" component="h6">
             Question
@@ -242,7 +242,9 @@ const AddQuestion = ({ addQuestion }) => {
             Save
           </Button>
         </Box>
-      </Container>
+        </Box>
+        </Container>
+      </Dialog>
     </>
   );
 };
