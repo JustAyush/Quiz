@@ -34,7 +34,7 @@ const QuestionList = ({
   return (
     <>
       <Box className={classes.outerBox}>
-        <Box pt={5}>
+        <Box pt={10}>
           <Container maxWidth="sm" className={classes.contentBox}>
             <Box
               mb={2}

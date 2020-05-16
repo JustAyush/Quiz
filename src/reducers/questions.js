@@ -1,6 +1,6 @@
 const initialState = [
   {
-    id: 101,
+    id: 0,
     question: "Who is your favourite youtuber?",
     options: [
       {
@@ -27,7 +27,7 @@ const initialState = [
     correctOption: "0",
   },
   {
-    id: 102,
+    id: 1,
     question: "Who won the fight?",
     options: [
       {
@@ -42,7 +42,7 @@ const initialState = [
     correctOption: "0",
   },
   {
-    id: 103,
+    id: 2,
     question: "Who has got the most subs in Youtube?",
     options: [
       {
