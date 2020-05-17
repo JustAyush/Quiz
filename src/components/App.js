@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import { AddQuesContainer, QuesListContainer } from "../containers";
 
 import Header from "../header"
+import Footer from "../footer";
 
 const App = () => {
 
@@ -13,6 +14,7 @@ const App = () => {
       <Header />
       <AddQuesContainer addDialogOpen={addDialogOpen} setAddDialogOpen={setAddDialogOpen} />
       <QuesListContainer setAddDialogOpen={setAddDialogOpen} />
+      <Footer />
     </>
   );
 };

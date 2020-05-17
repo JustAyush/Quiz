@@ -9,9 +9,15 @@ const Header = () => {
     <AppBar position="fixed" className={classes.navbar}>
       <Container maxWidth="md">
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="h5" component="h6" className={classes.logoType}>
-            <span style={{color: 'blue'}}>Quiz</span>APP
-          </Typography>
+          <NavLink exact to="/" style={{ textDecoration: "none" }}>
+            <Typography
+              variant="h5"
+              component="h6"
+              className={classes.logoType}
+            >
+              <span style={{ color: "blue" }}>Quiz</span>APP
+            </Typography>
+          </NavLink>
           <Toolbar>
             <NavLink
               activeClassName={classes.activeLink}
@@ -46,11 +52,11 @@ const useStyles = makeStyles((theme) => ({
   },
   logoType: {
     color: "black",
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   navlink: {
     color: "black",
-    textDecoration: "none"
+    textDecoration: "none",
   },
   quizLink: {
     marginLeft: theme.spacing(3),

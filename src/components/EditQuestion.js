@@ -144,10 +144,20 @@ const EditQuestion = ({
 
   return (
     <>
-      <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
+      <Dialog
+        open={editDialogOpen}
+        onClose={() => setEditDialogOpen(false)}
+        maxWidth="sm"
+        fullWidth={true}
+      >
         <Container maxWidth="sm">
           <Box p={2}>
             <Box mt={2}>
+              <Box mb={2}>
+                <Typography variant="h5" component="h5">
+                  Add Question
+                </Typography>
+              </Box>
               <Typography variant="subtitle1" component="h6">
                 Question
               </Typography>
@@ -245,14 +255,29 @@ const EditQuestion = ({
                 </FormHelperText>
               </FormControl>
             </Box>
-            <Box mt={3}>
+            <Box
+              mt={3}
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
               <Button
                 variant="contained"
                 color="primary"
                 onClick={handleUpdate}
+                style={{ marginRight: "10px" }}
                 fullWidth
               >
                 Update
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => setEditDialogOpen(false)}
+                style={{ marginLeft: "10px" }}
+                fullWidth
+              >
+                Cancel
               </Button>
             </Box>
           </Box>

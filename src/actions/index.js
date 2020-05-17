@@ -22,3 +22,7 @@ export const answerQuestion = (questionId, chosenOption) => ({
   questionId, 
   chosenOption
 });
+
+export const resetAnswer = () => ({
+  type: "RESET_ANSWER"
+});

@@ -1,75 +1,4 @@
-const initialState = [
-  {
-    id: 0,
-    question: "Who is your favourite youtuber?",
-    options: [
-      {
-        id: 0,
-        option: "Casey Neistat",
-      },
-      {
-        id: 2,
-        option: "Mr. Beast",
-      },
-      {
-        id: 3,
-        option: "David Dobrik",
-      },
-      {
-        id: 4,
-        option: "Jason Nash",
-      },
-      {
-        id: 5,
-        option: "MKBHD",
-      },
-    ],
-    correctOption: "0",
-    chosenOption: null,
-  },
-  {
-    id: 1,
-    question: "Who won the fight?",
-    options: [
-      {
-        id: 0,
-        option: "KSI",
-      },
-      {
-        id: 2,
-        option: "Logan Paul",
-      },
-    ],
-    correctOption: "0",
-    chosenOption: null
-  },
-  {
-    id: 2,
-    question: "Who has got the most subs in Youtube?",
-    options: [
-      {
-        id: 0,
-        option: "Pewdiepie",
-      },
-      {
-        id: 2,
-        option: "Logan Paul",
-      },
-      {
-        id: 3,
-        option: "Mr. Beast",
-      },
-      {
-        id: 4,
-        option: "Dude Perfect",
-      },
-    ],
-    correctOption: "0",
-    chosenOption: null
-  },
-];
-
-export const questions = (state = initialState, action) => {
+export const questions = (state = [], action) => {
   switch (action.type) {
     case "ADD_QUESTION":
       return [
@@ -79,20 +8,20 @@ export const questions = (state = initialState, action) => {
           question: action.question.question.trim(),
           options: action.question.options,
           correctOption: action.question.correctOption,
-          chosenOption: null
+          chosenOption: null,
         },
       ];
 
     case "EDIT_QUESTION":
       let quesId = state.findIndex((item) => item.id === action.questionId);
-      let newQuestions = [...state]
+      let newQuestions = [...state];
       newQuestions[quesId] = {
         ...newQuestions[quesId],
         question: action.updatedQuestion.question,
         options: action.updatedQuestion.options,
         correctOption: action.updatedQuestion.correctOption,
       };
-      state = [...newQuestions]
+      state = [...newQuestions];
       return state;
 
     case "DELETE_QUESTION":
@@ -100,13 +29,21 @@ export const questions = (state = initialState, action) => {
 
     case "ANSWER_QUESTION":
       let questionId = state.findIndex((item) => item.id === action.questionId);
-      let answeredQuestions = [...state]
+      let answeredQuestions = [...state];
       answeredQuestions[questionId] = {
         ...answeredQuestions[questionId],
-        chosenOption: action.chosenOption
+        chosenOption: action.chosenOption,
       };
-      state = [...answeredQuestions] 
-      return state;  
+      state = [...answeredQuestions];
+      return state;
+
+    case "RESET_ANSWER":
+      let tempQues = [...state]
+      tempQues.map((item, index) => {
+        item.chosenOption = null;
+      })
+      state = [...tempQues]
+      return state;
 
     default:
       return state;

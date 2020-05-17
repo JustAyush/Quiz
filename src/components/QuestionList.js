@@ -34,7 +34,7 @@ const QuestionList = ({
   return (
     <>
       <Box className={classes.outerBox}>
-        <Box pt={10}>
+        <Box pt={10} pb={4}>
           <Container maxWidth="sm" className={classes.contentBox}>
             <Box
               mb={2}
@@ -60,7 +60,14 @@ const QuestionList = ({
             </Box>
             <hr />
             <Box pb={4} mt={4}>
+              {questions.length > 0 ? 
+              <>
               {displayQuestions}
+              </>
+              : 
+              <Typography variant="subtitle1" component="p" className={classes.noQuesMsg} > You have not added any questions yet.</Typography>
+              }
+              
             </Box>
           </Container>
         </Box>
@@ -93,6 +100,10 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
     marginTop: theme.spacing(0.5),
   },
+  noQuesMsg: {
+    textAlign: 'center',
+    color: '#a5a5a5'
+  }
 }));
 
 export default QuestionList;

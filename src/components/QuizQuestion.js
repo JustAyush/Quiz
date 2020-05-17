@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Grid, Container, Box, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
 
@@ -16,16 +14,13 @@ const QuizQuestion = ({
   totalQuestions,
   answerQuestion,
   prevNextToggle,
-  handleFinish
+  handleFinish,
 }) => {
   const classes = useStyles();
 
   const [selectedOption, setSelectedOption] = useState(null);
 
-
   useEffect(() => {
-    console.log(question.question);
-    console.log(question.chosenOption);
     if (question.chosenOption === null) {
       setSelectedOption(null);
     } else {
@@ -39,11 +34,16 @@ const QuizQuestion = ({
     handleNext();
   };
 
-  const handleFinishClick = async () => {
-    await answerQuestion(question.id, selectedOption);
-    setSelectedOption(null);
-    handleFinish();
-  }
+  const sendLastAnswer = async () => {
+    answerQuestion(question.id, selectedOption);
+  };
+
+  const handleFinishClick = () => {
+    sendLastAnswer().then(() => {
+      setSelectedOption(null);
+      handleFinish();
+    });
+  };
 
   const displayOptions = question.options.map((item, index) => {
     return (
@@ -133,12 +133,12 @@ const QuizQuestion = ({
                 color="primary"
                 className={classes.finishBtn}
                 onClick={handleNext}
+                onClick={handleFinishClick}
               >
                 <Typography
                   variant="subtitle1"
                   component="p"
                   className={classes.finishTxt}
-                  onClick={handleFinishClick}
                 >
                   {" "}
                   Finish{" "}

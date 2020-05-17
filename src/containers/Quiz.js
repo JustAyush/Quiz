@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 
-import { answerQuestion } from "../actions";
+import { answerQuestion, resetAnswer } from "../actions";
 import Quiz from "../components/Quiz";
 
 const mapStateToProps = (state) => ({
@@ -10,6 +10,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   answerQuestion: (questionId, chosenOption) =>
     dispatch(answerQuestion(questionId, chosenOption)),
+  resetAnswer: () => dispatch(resetAnswer()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Quiz);
