@@ -1,15 +1,78 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Grid, Container, Box, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
+import ArrowRightIcon from "@material-ui/icons/ArrowRight";
+import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
 
 import Header from "../header";
 
-const QuizQuestion = () => {
+const QuizQuestion = ({
+  question,
+  handlePrev,
+  handleNext,
+  currentQuestion,
+  totalQuestions,
+  answerQuestion,
+  prevNextToggle,
+  handleFinish
+}) => {
   const classes = useStyles();
+
+  const [selectedOption, setSelectedOption] = useState(null);
+
+
+  useEffect(() => {
+    console.log(question.question);
+    console.log(question.chosenOption);
+    if (question.chosenOption === null) {
+      setSelectedOption(null);
+    } else {
+      setSelectedOption(question.chosenOption);
+    }
+  }, [prevNextToggle]);
+
+  const handleNextClick = async () => {
+    await answerQuestion(question.id, selectedOption);
+    setSelectedOption(null);
+    handleNext();
+  };
+
+  const handleFinishClick = async () => {
+    await answerQuestion(question.id, selectedOption);
+    setSelectedOption(null);
+    handleFinish();
+  }
+
+  const displayOptions = question.options.map((item, index) => {
+    return (
+      <Grid item xs={12} sm={6} key={item.id}>
+        <Box
+          p={2}
+          className={
+            selectedOption != null && selectedOption.id === item.id
+              ? `${classes.optionBoxSelected}`
+              : `${classes.optionBox}`
+          }
+          onClick={() => setSelectedOption(item)}
+        >
+          <Typography
+            variant="subtitle1"
+            component="p"
+            className={
+              selectedOption != null && selectedOption.id === item.id
+                ? `${classes.optionSelected}`
+                : `${classes.option}`
+            }
+          >
+            {item.option}
+          </Typography>
+        </Box>
+      </Grid>
+    );
+  });
+
   return (
     <div className={classes.outerCover}>
       <Header />
@@ -21,55 +84,12 @@ const QuizQuestion = () => {
               component="h5"
               className={classes.question}
             >
-              Who is your favourite youtuber?
+              {question.question}
             </Typography>
 
             <Box mt={3}>
               <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                  <Box p={2} className={classes.optionBox}>
-                    <Typography
-                      variant="subtitle1"
-                      component="p"
-                      className={classes.option}
-                    >
-                      Casey Neistat
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Box p={2} className={classes.optionBox}>
-                    <Typography
-                      variant="subtitle1"
-                      component="p"
-                      className={classes.option}
-                    >
-                      Casey Neistat
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Box p={2} className={classes.optionBox}>
-                    <Typography
-                      variant="subtitle1"
-                      component="p"
-                      className={classes.option}
-                    >
-                      Casey Neistat
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Box p={2} className={classes.optionBox}>
-                    <Typography
-                      variant="subtitle1"
-                      component="p"
-                      className={classes.option}
-                    >
-                      Casey Neistat
-                    </Typography>
-                  </Box>
-                </Grid>
+                {displayOptions}
               </Grid>
             </Box>
           </Box>
@@ -83,7 +103,7 @@ const QuizQuestion = () => {
               style={{ textAlign: "center", color: "#3c4146" }}
             >
               {" "}
-              1/10
+              {currentQuestion}/{totalQuestions}
             </Typography>
           </Container>
         </Box>
@@ -95,12 +115,53 @@ const QuizQuestion = () => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Button variant="contained" color="primary" className={classes.btn}>
-              <ArrowLeftIcon className={classes.prevNextIcon} fontSize="large" />
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.btn}
+              onClick={handlePrev}
+              disabled={currentQuestion === 1 ? true : false}
+            >
+              <ArrowLeftIcon
+                className={classes.prevNextIcon}
+                fontSize="large"
+              />
             </Button>
-            <Button variant="contained" color="primary" className={classes.btn}>
-              <ArrowRightIcon className={classes.prevNextIcon} fontSize="large" />
-            </Button>
+            {currentQuestion === totalQuestions ? (
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.finishBtn}
+                onClick={handleNext}
+              >
+                <Typography
+                  variant="subtitle1"
+                  component="p"
+                  className={classes.finishTxt}
+                  onClick={handleFinishClick}
+                >
+                  {" "}
+                  Finish{" "}
+                </Typography>
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.btn}
+                disabled={
+                  selectedOption == null || currentQuestion === totalQuestions
+                    ? true
+                    : false
+                }
+                onClick={handleNextClick}
+              >
+                <ArrowRightIcon
+                  className={classes.prevNextIcon}
+                  fontSize="large"
+                />
+              </Button>
+            )}
           </Box>
         </Container>
       </Box>
@@ -122,7 +183,6 @@ const useStyles = makeStyles((theme) => ({
   },
   optionBox: {
     border: "1px solid #a4a4a4",
-    transition: "all 0.4s ease",
     cursor: "pointer",
     "&:hover": {
       backgroundColor: "blue",
@@ -132,15 +192,23 @@ const useStyles = makeStyles((theme) => ({
       color: "white",
     },
   },
+  optionBoxSelected: {
+    backgroundColor: "blue",
+    border: "1px solid blue",
+    cursor: "pointer",
+  },
   option: {
     textAlign: "center",
     fontWeight: "bold",
     color: "#3c4146",
-    transition: "all 0.4s ease",
+  },
+  optionSelected: {
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "white",
   },
   btn: {
     backgroundColor: "white",
-    transition: "all 0.4s ease",
     "&:hover": {
       backgroundColor: "blue",
     },
@@ -150,7 +218,23 @@ const useStyles = makeStyles((theme) => ({
   },
   prevNextIcon: {
     color: "blue",
-    transition: "all 0.4s ease",
+  },
+  finishBtn: {
+    backgroundColor: "white",
+    padding: "0.8em 2em",
+    "&:hover": {
+      backgroundColor: "blue",
+    },
+    "&:hover $finishTxt": {
+      color: "white",
+    },
+  },
+  finishTxt: {
+    color: "blue",
+    fontWeight: "bold",
+    "&:hover": {
+      color: "white",
+    },
   },
 }));
 

@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import App from "./components/App";
-import Quiz from "./components/QuizQuestion"
+import Quiz from "./containers/Quiz";
 
 const RouterRoute = () => {
   const baseUrl = process.env.PUBLIC_URL;

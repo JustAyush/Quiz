@@ -25,6 +25,7 @@ const initialState = [
       },
     ],
     correctOption: "0",
+    chosenOption: null,
   },
   {
     id: 1,
@@ -40,6 +41,7 @@ const initialState = [
       },
     ],
     correctOption: "0",
+    chosenOption: null
   },
   {
     id: 2,
@@ -63,6 +65,7 @@ const initialState = [
       },
     ],
     correctOption: "0",
+    chosenOption: null
   },
 ];
 
@@ -76,6 +79,7 @@ export const questions = (state = initialState, action) => {
           question: action.question.question.trim(),
           options: action.question.options,
           correctOption: action.question.correctOption,
+          chosenOption: null
         },
       ];
 
@@ -93,6 +97,16 @@ export const questions = (state = initialState, action) => {
 
     case "DELETE_QUESTION":
       return state.filter((item) => item.id !== action.questionId);
+
+    case "ANSWER_QUESTION":
+      let questionId = state.findIndex((item) => item.id === action.questionId);
+      let answeredQuestions = [...state]
+      answeredQuestions[questionId] = {
+        ...answeredQuestions[questionId],
+        chosenOption: action.chosenOption
+      };
+      state = [...answeredQuestions] 
+      return state;  
 
     default:
       return state;

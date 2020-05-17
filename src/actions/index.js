@@ -17,3 +17,8 @@ export const deleteQuestion = questionId => ({
   questionId
 });
 
+export const answerQuestion = (questionId, chosenOption) => ({
+  type: "ANSWER_QUESTION",
+  questionId, 
+  chosenOption
+});
